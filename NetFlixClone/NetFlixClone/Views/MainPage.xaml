@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NetFlixClone.Views.MainPage"
+             BackgroundColor="Black"
+             xmlns:vm="clr-namespace:NetFlixClone.ViewModels"
+             xmlns:controlesxd="clr-namespace:NetFlixClone.Controlls"
+             x:DataType="vm:HomeViewModel"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="ManuLabel">
+                <Setter Property="FontSize" Value="15"></Setter>
+                <Setter Property="FontAttributes" Value="Bold"></Setter>
+                <Setter Property="VerticalTextAlignment" Value="Center"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid Margin="0" Padding="0">
+        
+        <ScrollView BackgroundColor="Black">
+            <VerticalStackLayout >
+                <Grid HeightRequest="500">
+                    <Image Aspect="Center" HeightRequest="350" VerticalOptions="Start"
+                           Opacity="0.8">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding TrendingMovie.Thumbnail}"/>
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PeliculaSeleccionadaCommand}" 
+                                                  CommandParameter="{Binding TrendingMovie}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <Grid VerticalOptions="Start"
+                          HeightRequest="35"
+                          Margin="0,35,0,0">
+                        <FlexLayout JustifyContent="SpaceAround"
+                                    VerticalOptions="Center">
+                            <Label Text="Tv Shows"
+                                   Style="{StaticResource ManuLabel}"/>
+                            <Label Text="Movies"
+                                    Style="{StaticResource ManuLabel}"/>
+
+                            <Label Text="Categorias"
+                                    Style="{StaticResource ManuLabel}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="CategoriasMenu_Tapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </FlexLayout>
+                    </Grid>
+                    <HorizontalStackLayout VerticalOptions="End" HorizontalOptions="Center" Spacing="50">
+                        <VerticalStackLayout >
+                            <Label Text="+" HorizontalOptions="Center" FontAttributes="Bold" FontSize="20"/>
+                            <Label Text="My List" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                        <Border StrokeShape="RoundRectangle 5" BackgroundColor="White" Padding="20,5">
+                            <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                                <Image Source="play.png" Aspect="AspectFit" HeightRequest="16" 
+                                       WidthRequest="16"/>
+                                <Label Text="Play" TextColor="Black" FontAttributes="Bold" FontSize="16"/>
+                            </HorizontalStackLayout>
+                            
+                        </Border>
+                        <VerticalStackLayout >
+                            <Grid HorizontalOptions="Center">
+                                <Ellipse  Stroke="White" HeightRequest="22"
+                                 WidthRequest="22" StrokeThickness="2"/>
+                                <Label Text="i" HorizontalOptions="Center"
+                                       VerticalOptions="Center" FontAttributes="Bold"/>
+                            </Grid>
+                            <Label Text="Info" HorizontalOptions="Center" Margin="0,10,0,0"/>
+                            <VerticalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PeliculaSeleccionadaCommand}"
+                                                      CommandParameter="{Binding TrendingMovie}"/>
+                                
+                            </VerticalStackLayout.GestureRecognizers>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    
+                </Grid>
+                <controlesxd:FilaPeliculas Heading="Top Rated" 
+                                           Movies="{Binding Destacado}"
+                                           IsLarge="False"
+                                           MediaSelected="FilaPeliculas_MediaSelected"/>
+                <controlesxd:FilaPeliculas Heading="Original"
+                                             Movies="{Binding OriginalesNetflix}"
+                                                IsLarge="True"
+                                           MediaSelected="FilaPeliculas_MediaSelected"/>
+                <controlesxd:FilaPeliculas Heading="Tending" 
+                                            Movies="{Binding Trending}"
+                                            IsLarge="False"
+                                           MediaSelected="FilaPeliculas_MediaSelected"/>
+                <controlesxd:FilaPeliculas Heading="Actions" 
+                                            Movies="{Binding PeliculasAccion}"
+                                            IsLarge="False"
+                                           MediaSelected="FilaPeliculas_MediaSelected"/>
+            </VerticalStackLayout>
+            
+        </ScrollView>
+        <Grid HeightRequest="35" VerticalOptions="Start">
+            <FlexLayout JustifyContent="SpaceBetween">
+                <Image Source="brand_netflix.png" 
+                       Aspect="AspectFill" VerticalOptions="Start"
+                       HeightRequest="30"
+                       WidthRequest="30"/>
+                <HorizontalStackLayout VerticalOptions="Center" Margin="5,0" Spacing="15">
+                    <Image Source="search.png" Aspect="AspectFill" HeightRequest="20" WidthRequest="20"/>
+                    <Image Source="user.png" Aspect="AspectFill" HeightRequest="20" WidthRequest="20"/>
+                </HorizontalStackLayout>
+            </FlexLayout>
+           
+            
+        </Grid>
+        <controlesxd:InfoPelicula Media="{Binding SeleccionPelicula}" 
+                                   VerticalOptions="End"
+                                  IsVisible="{Binding MostrarInfoBox}"
+                                  Cerrar ="MovieInfoBox_Closed"/>
+    </Grid>
+    
+   
+
+</ContentPage>
